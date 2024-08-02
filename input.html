@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Usage Input</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Water Usage Input</h2>
+    <form id="water-usage-form">
+        <label for="total-people">Total number of people in your household:</label>
+        <input type="number" id="total-people" name="total-people" required><br><br>
+        
+        <!-- Additional input fields for indoor water use -->
+        <label for="showers-per-day">Average number of showers per day per person:</label>
+        <input type="number" id="showers-per-day" name="showers-per-day" required><br><br>
+        
+        <label for="avg-shower-length">Average shower length (minutes):</label>
+        <input type="number" id="avg-shower-length" name="avg-shower-length" required><br><br>
+        
+        <label for="toilets-flush-per-day">Average number of toilet flushes per day per person:</label>
+        <input type="number" id="toilets-flush-per-day" name="toilets-flush-per-day" required><br><br>
+        
+        <label for="faucets-usage-per-day">Average number of faucet uses per day per person:</label>
+        <input type="number" id="faucets-usage-per-day" name="faucets-usage-per-day" required><br><br>
+        
+        <label for="faucets-minutes-usage">Average duration of faucet use per use (minutes):</label>
+        <input type="number" id="faucets-minutes-usage" name="faucets-minutes-usage" required><br><br>
+        
+        <label for="dishwasher-usage-per-week">Number of times dishwasher is used per week:</label>
+        <input type="number" id="dishwasher-usage-per-week" name="dishwasher-usage-per-week" required><br><br>
+        
+        <label for="laundry-loads-per-week">Number of laundry loads per week:</label>
+        <input type="number" id="laundry-loads-per-week" name="laundry-loads-per-week" required><br><br>
+        
+        <!-- Additional input fields for outdoor water use -->
+        <label for="lawn-watering-times-per-week">Number of times lawn is watered per week:</label>
+        <input type="number" id="lawn-watering-times-per-week" name="lawn-watering-times-per-week" required><br><br>
+        
+        <label for="lawn-watering-minutes">Average duration of each lawn watering session (minutes):</label>
+        <input type="number" id="lawn-watering-minutes" name="lawn-watering-minutes" required><br><br>
+        
+        <!-- Calculate button -->
+        <button type="submit" id="submit">Calculate</button>
+        
+        <!-- View Results button -->
+        <button id="view-results">View Results</button>
+    </form>
+</div>
+<script src="script.js"></script>
+</body>
+</html>

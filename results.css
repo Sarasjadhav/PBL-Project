@@ -1,0 +1,58 @@
+/* Results Page Styles */
+.container.result-section {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+h1 {
+    text-align: center;
+    color: #008080;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #008080;
+    margin-top: 20px;
+}
+
+h3 {
+    color: #333;
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+li strong {
+    color: #008080;
+}
+
+#score {
+    font-size: 3em;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.score.good {
+    color: green;
+}
+
+.score.average {
+    color: orange;
+}
+
+.score.bad {
+    color: red;
+}

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Usage Results</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="results.css">
+    <style>
+        .score {
+            font-size: 72px;
+            text-align: center;
+        }
+        .score.good {
+            color: green;
+        }
+        .score.average {
+            color: orange;
+        }
+        .score.bad {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Water Usage Results</h1>
+    
+    <div class="container result-section">
+        <h2>Water Usage Results</h2>
+        
+        <h3>Your daily water usage (liters)</h3>
+        <ul>
+            <li><strong>Bathroom:</strong> <span id="bathroom-usage">0</span> liters</li>
+            <li><strong>Toilets:</strong> <span id="toilet-usage">0</span> liters</li>
+            <li><strong>Faucets:</strong> <span id="faucet-usage">0</span> liters</li>
+            <li><strong>Dishwasher:</strong> <span id="dishwasher-usage">0</span> liters</li>
+            <li><strong>Laundry:</strong> <span id="laundry-usage">0</span> liters</li>
+            <li><strong>Lawn Watering:</strong> <span id="lawn-watering-usage">0</span> liters</li>
+            <!-- Add other list items for different categories -->
+        </ul>
+        <h2>Your Water Usage Score</h2>
+        <div id="score" class="score"></div>
+        <div id="message" class="score"></div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function waterusagescore(data) {
+            const totalBathroomUsage = calculateTotalBathroomUsage(data);
+            const totalDishwasherUsage=calculateTotalDishwasherUsage(data);
+            const totalFaucetUsage=calculateTotalFaucetUsage(data);
+            const totalLaundryUsage=calculateTotalLaundryUsage(data);
+            const totalLawnWateringUsage=calculateTotalLawnWateringUsage(data);
+            const totalToiletUsage=calculateTotalToiletUsage(data);
+            // Calculate other usage totals
+            
+            const totalscore = totalBathroomUsage +totalDishwasherUsage+totalFaucetUsage+totalLaundryUsage+totalLawnWateringUsage+totalToiletUsage;/* + other usage totals */;
+            
+            let message = "";
+            let scoreClass = "";
+
+    if (totalscore < 1200) {
+        message = "Usage below average";
+        scoreClass = "good";
+    } else if (totalscore < 1400 && totalscore > 400) {
+        message = "Average water usage";
+        scoreClass = "average";
+    } else {
+        message = "Above water usage";
+        scoreClass = "bad";
+    }
+
+    return { score: totalscore, message: message, class: scoreClass };
+
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Retrieve calculated values from localStorage
+            const waterUsageData = localStorage.getItem("waterUsageData");
+            
+            // Update HTML elements with retrieved values
+            if (waterUsageData) {
+                const parsedData = JSON.parse(waterUsageData);
+                updateWaterUsageResults(parsedData);
+            } else {
+                updateWaterUsageResults(null);
+            }
+        });
+
+        // Function to update water usage results
+        function updateWaterUsageResults(data) {
+            if (data) {
+                const totalBathroomUsage = calculateTotalBathroomUsage(data);
+                document.getElementById("bathroom-usage").textContent = totalBathroomUsage.toFixed(2) + " liters";
+                const totalToiletUsage = calculateTotalToiletUsage(data);
+                document.getElementById("toilet-usage").textContent = totalToiletUsage.toFixed(2) + " liters";
+                
+                const totalFaucetUsage = calculateTotalFaucetUsage(data);
+                document.getElementById("faucet-usage").textContent = totalFaucetUsage.toFixed(2) + " liters";
+                
+                const totalDishwasherUsage = calculateTotalDishwasherUsage(data);
+                document.getElementById("dishwasher-usage").textContent = totalDishwasherUsage.toFixed(2) + " liters";
+                
+                const totalLaundryUsage = calculateTotalLaundryUsage(data);
+                document.getElementById("laundry-usage").textContent = totalLaundryUsage.toFixed(2) + " liters";
+                
+                const totalLawnWateringUsage = calculateTotalLawnWateringUsage(data);
+                document.getElementById("lawn-watering-usage").textContent = totalLawnWateringUsage.toFixed(2) + " liters";
+                // Update other usage totals
+                
+                const scoreData = waterusagescore(data);
+                document.getElementById("score").textContent = scoreData.score.toFixed(2);
+                document.getElementById("score").classList.add(scoreData.class);
+            } else {
+                // Handle if  document.getElementById("bathroom-usage").textContent = "N/A";
+                document.getElementById("toilet-usage").textContent = "N/A";
+                document.getElementById("faucet-usage").textContent = "N/A";
+                document.getElementById("dishwasher-usage").textContent = "N/A";
+                document.getElementById("laundry-usage").textContent = "N/A";
+                document.getElementById("lawn-watering-usage").textContent = "N/A";
+            }
+        }
+
+        // Function to calculate total bathroom usage
+        function calculateTotalBathroomUsage(data) {
+            const totalBathroomUsage = data.showersPerDay * data.avgShowerLength * data.totalPeople;
+            return totalBathroomUsage * 3.78541; // Convert gallons to liters
+        }
+        
+        // Function to calculate total toilet usage
+        function calculateTotalToiletUsage(data) {
+            const totalToiletUsage = data.toiletsFlushPerDay * data.totalPeople;
+            return totalToiletUsage * 3.78541; // Convert gallons to liters
+        }
+        
+        // Function to calculate total faucet usage
+        function calculateTotalFaucetUsage(data) {
+            const totalFaucetUsage = data.faucetsUsagePerDay * data.faucetsMinutesUsage * data.totalPeople * 3 * 3.78541; // Assuming 3 gallons/minute and converting to liters
+            return totalFaucetUsage;
+        }
+        
+        // Function to calculate total dishwasher usage
+        function calculateTotalDishwasherUsage(data) {
+            const totalDishwasherUsage = data.dishwasherUsagePerWeek * 6 * 3.78541; // Example value for dishwasher gallons per load and converting to liters
+            return totalDishwasherUsage;
+        }
+        
+        // Function to calculate total laundry usage
+        function calculateTotalLaundryUsage(data) {
+            const totalLaundryUsage = data.laundryLoadsPerWeek * 8 * 3.78541; // Example value for laundry gallons per load and converting to liters
+            return totalLaundryUsage;
+        }
+        
+        // Function to calculate total lawn watering usage
+        function calculateTotalLawnWateringUsage(data) {
+            const totalLawnWateringUsage = data.lawnWateringTimesPerWeek * data.lawnWateringMinutes * 5 * 3.78541; // Example value for lawn watering gallons per minute and converting to liters
+            return totalLawnWateringUsage;
+        }
+        // Add other calculation functions for different categories
+    </script>
+</body>
+</html>
